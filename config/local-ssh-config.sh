@@ -1,5 +1,5 @@
 sed -i '/# BOF DO_VPC/,/# EOF DO_VPC/d' ~/.ssh/config
-cat <<EOF >config
+cat <<EOF >temp_conf
 # BOF DO_VPC
 # Created on $(date)
 Host app1
@@ -14,4 +14,4 @@ Host app2
 # EOF DO_VPC
 EOF
 cat config >> ~/.ssh/config
-rm -rf config
+rm -rf temp_conf
