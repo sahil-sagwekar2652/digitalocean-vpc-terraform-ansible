@@ -1,5 +1,5 @@
-resource "digitalocean_firewall" "gateway_firewall" {
-  name = "gateway_firewall"
+resource "digitalocean_firewall" "gateway" {
+  name = "gateway"
   droplet_ids = [digitalocean_droplet.gateway.id]
 
   inbound_rule {
@@ -22,8 +22,8 @@ resource "digitalocean_firewall" "gateway_firewall" {
 
 }
 
-resource "digitalocean_firewall" "app_firewall" {
-  name = "app_firewall"
+resource "digitalocean_firewall" "app" {
+  name = "app"
   droplet_ids = [digitalocean_droplet.app1.id, digitalocean_droplet.app2.id]
 
   inbound_rule {

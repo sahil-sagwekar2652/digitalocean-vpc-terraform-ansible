@@ -1,7 +1,7 @@
 resource "digitalocean_vpc" "sgp_vpc" {
   name     = "automated-vpc"
   region   = var.region
-  ip_range = "10.0.0.0/24"
+  ip_range = var.cidr_block
 }
 
 resource "digitalocean_droplet" "gateway" {

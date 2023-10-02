@@ -14,3 +14,7 @@ variable "region" {
 variable "size" {
   default = "s-1vcpu-512mb-10gb"
 }
+
+variable "cidr_block" {
+  default = "10.10.0.0/24"
+}
