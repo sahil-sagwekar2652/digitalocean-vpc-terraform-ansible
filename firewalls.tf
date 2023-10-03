@@ -15,7 +15,7 @@ resource "digitalocean_firewall" "gateway" {
   }
 
   outbound_rule {
-    protocol = "tcp"
+    protocol = "udp"
     port_range = "1-65535"
     destination_addresses = ["0.0.0.0/0", "::/0"]
   }
