@@ -13,5 +13,5 @@ Host app2
   ProxyCommand ssh -W %h:%p root@${digitalocean_droplet.gateway.ipv4_address}
 # EOF DO_VPC
 EOF
-cat config >> ~/.ssh/config
+cat temp_conf >> ~/.ssh/config
 rm -rf temp_conf
