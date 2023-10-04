@@ -11,7 +11,7 @@ resource "digitalocean_droplet" "gateway" {
   size   = var.size
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
   vpc_uuid = digitalocean_vpc.sgp_vpc.id
-  user_data = file("./config/gateway-config.yml")
+  user_data = file("./config/gateway-config.yaml")
 }
 
 resource "digitalocean_droplet" "app1" {
@@ -21,7 +21,7 @@ resource "digitalocean_droplet" "app1" {
   size   = var.size
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
   vpc_uuid = digitalocean_vpc.sgp_vpc.id
-  user_data = file("./config/app-config.yml")
+  user_data = file("./config/app-config.yaml")
 }
 
 resource "digitalocean_droplet" "app2" {
@@ -31,10 +31,28 @@ resource "digitalocean_droplet" "app2" {
   size   = var.size
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
   vpc_uuid = digitalocean_vpc.sgp_vpc.id
-  user_data = file("./config/app-config.yml")
+  user_data = file("./config/app-config.yaml")
 
   provisioner "local-exec" {
-    command = file("./config/local-ssh-config.sh")
+    command = <<-EOT
+	sed -i '/# BOF DO_VPC/,/# EOF DO_VPC/d' ~/.ssh/config
+	cat <<EOF >temp_conf
+	# BOF DO_VPC
+	# Created on $(date)
+	Host app1
+	  HostName ${digitalocean_droplet.app1.ipv4_address_private}
+	  User root
+	  ProxyCommand ssh -W %h:%p root@${digitalocean_droplet.gateway.ipv4_address}
+
+	Host app2
+	  HostName ${digitalocean_droplet.app2.ipv4_address_private}
+	  User root
+	  ProxyCommand ssh -W %h:%p root@${digitalocean_droplet.gateway.ipv4_address}
+	# EOF DO_VPC
+	EOF
+	cat temp_conf >> ~/.ssh/config
+	rm -rf temp_conf
+	EOT
   }
 }
 
@@ -53,7 +71,7 @@ resource "digitalocean_loadbalancer" "public" {
   }
 
   healthcheck {
-    port     = 22
+    port     = 80
     protocol = "tcp"
   }
 
