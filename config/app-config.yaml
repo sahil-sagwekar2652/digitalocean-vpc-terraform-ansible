@@ -4,8 +4,7 @@
 runcmd:
   - sudo apt-get update
   - ip route add 169.254.169.254 via $(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway) dev eth0
-  - ip route change default via ${digitalocean_droplet.gateway.ipv4_address}
-  - netplan apply
+  - ip route change default via ${digitalocean_droplet.gateway.ipv4_address_private}
   - touch index.html
   - echo "Hello from ${self.name}" > index.html
   - python3 -m http.server --bind 0.0.0.0 80

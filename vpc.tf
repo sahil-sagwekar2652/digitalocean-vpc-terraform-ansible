@@ -71,7 +71,7 @@ resource "digitalocean_loadbalancer" "public" {
   }
 
   healthcheck {
-    port     = 80
+    port     = 81
     protocol = "tcp"
   }
 
