@@ -35,3 +35,10 @@ terraform.rc
 
 # Ignore terraform lockfile
 .terraform.lock.hcl
+
+# Ignore .vscode folder
+.vscode/
+
+# Ignore ansible py venv
+ansible-venv/
+ansible/output.json
