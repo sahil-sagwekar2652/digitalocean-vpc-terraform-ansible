@@ -1,4 +1,4 @@
-# Digital Ocean VPC using Terraform
+# Digital Ocean VPC using Terraform and Ansible
 
 
 ### Requirements
@@ -34,3 +34,9 @@ ansible-playbook -i hosts.yaml -e "@output.json" nat_gateway.yaml
 ```bash
 ansible-playbook -i hosts.yaml -e "@output.json" app_config.yaml
 ```
+- To test the vpc you can run the `test-run.sh` script (inside the project root dir) which will curl the loadbalancer
+```bash
+chmod +x scripts/test-run.sh
+./scripts/test-run.sh
+```
+- The output should demonstrate the Round Robin algorithm in action.
