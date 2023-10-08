@@ -1,4 +1,4 @@
-xi# Digital Ocean VPC using Terraform
+# Digital Ocean VPC using Terraform
 
 
 ### Requirements
