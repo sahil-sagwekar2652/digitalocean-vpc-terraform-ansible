@@ -1,0 +1,24 @@
+---
+- name: Configure Networking for NAT gateway
+  hosts: gateway
+  become: yes
+  tasks:
+    - name: Update APT package cache
+      apt:
+        update_cache: yes
+
+    - name: Enable IP forwarding
+      sysctl:
+        name: net.ipv4.ip_forward
+        value: 1
+        sysctl_set: yes
+        state: present
+        reload: yes
+
+    - name: Configure NAT for IP range
+      iptables:
+        table: nat
+        chain: POSTROUTING
+        source: "{{ vpc_cidr_block.value }}"
+        out_interface: eth0
+        jump: MASQUERADE

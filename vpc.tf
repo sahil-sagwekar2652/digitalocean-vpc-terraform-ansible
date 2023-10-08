@@ -5,33 +5,32 @@ resource "digitalocean_vpc" "sgp_vpc" {
 }
 
 resource "digitalocean_droplet" "gateway" {
-  image  = var.image
-  name   = "gateway"
-  region = var.region
-  size   = var.size
+  image    = var.image
+  name     = "gateway"
+  region   = var.region
+  size     = var.size
   ssh_keys = [digitalocean_ssh_key.default.fingerprint]
   vpc_uuid = digitalocean_vpc.sgp_vpc.id
-  user_data = file("./config/gateway-config.yaml")
 }
 
 resource "digitalocean_droplet" "app1" {
-  image = var.image
-  name   = "app1"
-  region = var.region
-  size   = var.size
-  ssh_keys = [digitalocean_ssh_key.default.fingerprint]
-  vpc_uuid = digitalocean_vpc.sgp_vpc.id
-  user_data = file("./config/app-config.yaml")
+  depends_on = [digitalocean_droplet.gateway]
+  image      = var.image
+  name       = "app1"
+  region     = var.region
+  size       = var.size
+  ssh_keys   = [digitalocean_ssh_key.default.fingerprint]
+  vpc_uuid   = digitalocean_vpc.sgp_vpc.id
 }
 
 resource "digitalocean_droplet" "app2" {
-  image = var.image
-  name   = "app2"
-  region = var.region
-  size   = var.size
-  ssh_keys = [digitalocean_ssh_key.default.fingerprint]
-  vpc_uuid = digitalocean_vpc.sgp_vpc.id
-  user_data = file("./config/app-config.yaml")
+  depends_on = [digitalocean_droplet.gateway]
+  image      = var.image
+  name       = "app2"
+  region     = var.region
+  size       = var.size
+  ssh_keys   = [digitalocean_ssh_key.default.fingerprint]
+  vpc_uuid   = digitalocean_vpc.sgp_vpc.id
 
   provisioner "local-exec" {
     command = <<-EOT
@@ -39,15 +38,19 @@ resource "digitalocean_droplet" "app2" {
 	cat <<EOF >temp_conf
 	# BOF DO_VPC
 	# Created on $(date)
+	Host gateway
+	  HostName ${digitalocean_droplet.gateway.ipv4_address}
+	  User root
+
 	Host app1
 	  HostName ${digitalocean_droplet.app1.ipv4_address_private}
 	  User root
-	  ProxyCommand ssh -W %h:%p root@${digitalocean_droplet.gateway.ipv4_address}
+	  ProxyCommand ssh -W %h:%p gateway
 
 	Host app2
 	  HostName ${digitalocean_droplet.app2.ipv4_address_private}
 	  User root
-	  ProxyCommand ssh -W %h:%p root@${digitalocean_droplet.gateway.ipv4_address}
+	  ProxyCommand ssh -W %h:%p gateway
 	# EOF DO_VPC
 	EOF
 	cat temp_conf >> ~/.ssh/config
@@ -57,10 +60,10 @@ resource "digitalocean_droplet" "app2" {
 }
 
 resource "digitalocean_loadbalancer" "public" {
-  name   = "loadbalancer"
-  region = var.region
+  name      = "loadbalancer"
+  region    = var.region
   algorithm = "round_robin"
-  vpc_uuid = digitalocean_vpc.sgp_vpc.id
+  vpc_uuid  = digitalocean_vpc.sgp_vpc.id
 
   forwarding_rule {
     entry_port     = 80
@@ -71,7 +74,7 @@ resource "digitalocean_loadbalancer" "public" {
   }
 
   healthcheck {
-    port     = 81
+    port     = 80
     protocol = "tcp"
   }
 

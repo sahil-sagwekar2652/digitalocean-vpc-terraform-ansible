@@ -1,0 +1,13 @@
+nat_gateway:
+  hosts:
+    gateway:
+      ansible_ssh_user: root
+
+webservers:
+  hosts:
+    app1:
+      ansible_ssh_user: root
+      ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p gateway"'
+    app2:
+      ansible_ssh_user: root
+      ansible_ssh_common_args: '-o ProxyCommand="ssh -W %h:%p gateway"'

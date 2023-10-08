@@ -1,0 +1,10 @@
+---
+- name: My Ansible Playbook
+  hosts: localhost
+  tasks:
+    - name: Debug output variables
+      debug:
+        msg: "private ip is {{ gateway.value.private_ip }} and {{ gateway.value.public_ip }}"
+
+    - name: Add content to index.html
+      shell: echo "Hello from {{ ansible_hostname }}" > index.html

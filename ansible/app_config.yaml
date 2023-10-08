@@ -1,0 +1,24 @@
+---
+- name: Configure webservers
+  hosts: webservers
+  become: yes
+  tasks:
+    - name: Add route for metadata service
+      shell: ip route add 169.254.169.254 via $(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway) dev eth0
+      ignore_errors: true
+
+    - name: Change default route
+      shell: ip route change default via {{ gateway.value.private_ip }}
+
+    - name: Create an empty index.html file
+      file:
+        path: ./index.html
+        state: touch
+
+    - name: Add content to index.html
+      shell: echo "Hello from {{ ansible_hostname }}" > index.html
+
+    - name: Start Python HTTP server
+      command: python3 -m http.server --bind 0.0.0.0 80
+      async: 3600
+      poll: 0
