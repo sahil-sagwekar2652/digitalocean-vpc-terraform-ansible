@@ -34,6 +34,11 @@ ansible-playbook -i hosts.yaml -e "@output.json" nat_gateway.yaml
 ```bash
 ansible-playbook -i hosts.yaml -e "@output.json" app_config.yaml
 ```
+
+- Go back to the project root folder
+```
+cd ..
+```
 - To test the vpc you can run the `test-run.sh` script (inside the project root dir) which will curl the loadbalancer
 ```bash
 chmod +x scripts/test-run.sh
