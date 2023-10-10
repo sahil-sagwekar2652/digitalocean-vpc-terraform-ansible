@@ -31,32 +31,6 @@ resource "digitalocean_droplet" "app2" {
   size       = var.size
   ssh_keys   = [digitalocean_ssh_key.default.fingerprint]
   vpc_uuid   = digitalocean_vpc.sgp_vpc.id
-
-  provisioner "local-exec" {
-    command = <<-EOT
-	sed -i '/# BOF DO_VPC/,/# EOF DO_VPC/d' ~/.ssh/config
-	cat <<EOF >temp_conf
-	# BOF DO_VPC
-	# Created on $(date)
-	Host gateway
-	  HostName ${digitalocean_droplet.gateway.ipv4_address}
-	  User root
-
-	Host app1
-	  HostName ${digitalocean_droplet.app1.ipv4_address_private}
-	  User root
-	  ProxyCommand ssh -W %h:%p gateway
-
-	Host app2
-	  HostName ${digitalocean_droplet.app2.ipv4_address_private}
-	  User root
-	  ProxyCommand ssh -W %h:%p gateway
-	# EOF DO_VPC
-	EOF
-	cat temp_conf >> ~/.ssh/config
-	rm -rf temp_conf
-	EOT
-  }
 }
 
 resource "digitalocean_loadbalancer" "public" {
