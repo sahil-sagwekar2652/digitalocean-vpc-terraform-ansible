@@ -3,7 +3,7 @@
 
 ## Usage
 1. [**Ubuntu/Debian**](#requirements)
-2. [**Mac**]()
+2. [**Mac**](#note)
 
 ### Requirements
 
