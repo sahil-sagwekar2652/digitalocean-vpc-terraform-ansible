@@ -20,7 +20,7 @@ terraform apply
 ```
 - Save the output
 ```bash
-terraform output -json ansible/output.json
+terraform output -json > ansible/output.json
 ```
 - Now to run the ansible playbooks, let's `cd` into the `ansible/` directory
 ```bash
