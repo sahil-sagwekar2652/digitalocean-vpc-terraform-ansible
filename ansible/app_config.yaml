@@ -2,6 +2,10 @@
 - name: Configure webservers
   hosts: webservers
   become: yes
+  
+  vars_files:
+    - output.json
+
   tasks:
     - name: Add route for metadata service
       shell: ip route add 169.254.169.254 via $(curl -s http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/gateway) dev eth0
