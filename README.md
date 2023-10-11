@@ -1,6 +1,10 @@
 # Digital Ocean VPC using Terraform and Ansible
 [![My Skills](https://skillicons.dev/icons?i=ansible)](https://skillicons.dev)
 
+## Usage
+1. [**Ubuntu/Debian**](#requirements)
+2. [**Mac**]()
+
 ### Requirements
 
 - Digital Ocean personal access token
@@ -45,3 +49,16 @@ chmod +x scripts/test-run.sh
 ./scripts/test-run.sh
 ```
 - The output should demonstrate the Round Robin algorithm in action.
+
+### Note
+If you are on a Mac, chances are that the `sed` command works differently to the Linux version of `sed`
+
+To avoid any issues, follow these steps to install `gnu-sed` in your command line.
+
+```bash
+brew install gsed
+```
+and add this to ~/.zshrc in your mac
+```bash
+PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
+```
