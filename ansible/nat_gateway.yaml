@@ -2,6 +2,10 @@
 - name: Configure Networking for NAT gateway
   hosts: gateway
   become: yes
+  
+  vars_files:
+    - output.json
+  
   tasks:
     - name: Update APT package cache
       apt:
