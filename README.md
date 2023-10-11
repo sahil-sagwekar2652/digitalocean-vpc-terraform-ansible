@@ -28,11 +28,11 @@ cd ansible
 ```
  - Run this playbook to configure the NAT gateway
 ```bash
-ansible-playbook -i hosts.yaml -e "@output.json" nat_gateway.yaml
+ansible-playbook nat_gateway.yaml
 ```
 - Run this playbook to setup the app servers
 ```bash
-ansible-playbook -i hosts.yaml -e "@output.json" app_config.yaml
+ansible-playbook app_config.yaml
 ```
 
 - Go back to the project root folder
