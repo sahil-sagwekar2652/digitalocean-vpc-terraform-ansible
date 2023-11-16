@@ -1,6 +1,8 @@
 # Digital Ocean VPC using Terraform and Ansible
 [![My Skills](https://skillicons.dev/icons?i=ansible)](https://skillicons.dev)
 
+![Digital Ocean VPC](https://github.com/sahil-sagwekar2652/digitalocean-vpc-terraform-ansible/assets/89456541/cf84dc2f-e7f3-4fd2-beff-6635c425eeba)
+
 ## Usage
 1. [**Ubuntu/Debian**](#requirements)
 2. [**Mac**](#note)
