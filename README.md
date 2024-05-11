@@ -64,3 +64,6 @@ and add this to ~/.zshrc in your mac
 ```bash
 PATH="/usr/local/opt/gnu-sed/libexec/gnubin:$PATH"
 ```
+
+### References
+- https://docs.digitalocean.com/products/networking/vpc/how-to/configure-droplet-as-gateway/

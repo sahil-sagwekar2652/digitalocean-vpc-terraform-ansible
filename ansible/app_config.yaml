@@ -24,5 +24,3 @@
 
     - name: Start Python HTTP server
       command: python3 -m http.server --bind 0.0.0.0 80
-      async: 3600
-      poll: 0
