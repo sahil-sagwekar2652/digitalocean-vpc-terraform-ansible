@@ -19,6 +19,10 @@ do_token = "your digital ocean private access token"
 ```
 
 ### How to Run
+- Initialize the terraform
+```
+terraform init
+```
 
 - First, terraform apply
 ```terraform
