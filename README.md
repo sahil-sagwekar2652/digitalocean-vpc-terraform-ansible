@@ -23,7 +23,10 @@ do_token = "your digital ocean private access token"
 ```
 terraform init
 ```
-
+- Preview the changes before apply
+```
+terraform plan
+```
 - First, terraform apply
 ```terraform
 terraform apply
